@@ -1,0 +1,304 @@
+# =================================================================
+# MTA Snowpipe Streaming Project .gitignore
+# =================================================================
+
+# Environment and Secrets
+# =================================================================
+.env
+.env5
+.envworks
+.env*
+.env*.*
+.env.*
+!.env.example
+!.env.template
+*.p8
+*.pem
+*.key
+*.crt
+*.csr
+snowflake_private_key*
+profile.json
+
+# Python
+# =================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+# =================================================================
+.venv/
+.env/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.python-version
+
+# PyInstaller
+# =================================================================
+*.manifest
+*.spec
+
+# Installer logs
+# =================================================================
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+# =================================================================
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Jupyter Notebook
+# =================================================================
+.ipynb_checkpoints
+
+# IPython
+# =================================================================
+profile_default/
+ipython_config.py
+
+# PyCharm
+# =================================================================
+.idea/
+
+# VSCode
+# =================================================================
+.vscode/
+*.code-workspace
+
+# Sublime Text
+# =================================================================
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+# =================================================================
+*.swp
+*.swo
+*~
+
+# Emacs
+# =================================================================
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# macOS
+# =================================================================
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+.AppleDB
+.AppleDesktop
+Network Trash Folder
+Temporary Items
+.apdisk
+
+# Windows
+# =================================================================
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+# =================================================================
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# Docker
+# =================================================================
+Dockerfile.local
+docker-compose.override.yml
+docker-compose.local.yml
+.dockerignore.local
+
+# Logs and Data
+# =================================================================
+logs/
+*.log
+log/
+data/
+*.csv
+*.json.bak
+*.json.tmp
+*.parquet
+failed_records/
+audit_logs/
+
+# Snowflake and Database
+# =================================================================
+snowflake_session_*.json
+*.sql.bak
+*.sql.tmp
+connection_test_*.py
+debug_*.py
+temp_*.py
+
+# Kafka and Streaming
+# =================================================================
+kafka_*.log
+consumer_*.log
+producer_*.log
+offset_*.json
+
+# Monitoring and Metrics
+# =================================================================
+prometheus_data/
+grafana_data/
+metrics/
+alerts/
+
+# Temporary Files
+# =================================================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.rej
+*~
+.#*
+#*#
+
+# Archives
+# =================================================================
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+
+# Compiled source
+# =================================================================
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Node.js (for any frontend components)
+# =================================================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.eslintcache
+
+# Project Specific
+# =================================================================
+# Health check temp files
+health_*.json
+health_*.tmp
+
+# Dashboard assets
+dashboard/static/uploads/
+dashboard/static/cache/
+
+# Configuration backups
+config.yaml.bak
+config.yaml.orig
+docker-compose.yml.bak
+
+# Test artifacts
+test_results/
+test_*.log
+test_*.json
+
+# Documentation builds
+docs/_build/
+docs/build/
+
+# Local development overrides
+local_*
+dev_*
+debug_*
+*.local
+
+# Performance profiling
+*.prof
+*.profile
+
+# Memory dumps
+*.dump
+core.*
+
+# SSL certificates and keys (additional patterns)
+ssl/
+certs/
+certificates/
+*.pem
+*.cer
+*.p12
+*.pfx
+
+# Backup files
+*.backup
+*.bkp
+*_backup*
+*_bak*
