@@ -1,0 +1,214 @@
+# ============================================================================
+# Snowpipe Streaming High-Performance Architecture Configuration
+# MTA Real-time Transit Data Pipeline
+# ============================================================================
+
+# Snowflake Connection Configuration
+snowflake:
+  account: "SOMESNOW-SOMEGUY-AWS12"  # Replace with your Snowflake account
+  user: "someservicename"
+  
+  # Key-pair authentication (REQUIRED - password auth removed for security)
+  # Set via environment variables:
+  private_key_path: "/path/to/your/private_key.p8"  # Will be set from SNOWFLAKE_PRIVATE_KEY_PATH env var
+  private_key_passphrase: ""  # Will be set from SNOWFLAKE_PRIVATE_KEY_PASSPHRASE env var
+  
+  warehouse: "INGEST"
+  database: "DEMO"
+  schema: "DEMO"
+  role: "ACCOUNTADMIN"
+  
+  # Connection pool settings for high performance
+  connection_pool:
+    max_connections: 10
+    min_connections: 2
+    connection_timeout: 30
+    socket_timeout: 300
+
+# Snowpipe Streaming Configuration
+streaming:
+  # Channel configuration
+  channel_name: "MTA_REALTIME_CHANNEL"
+  table_name: "ICYMTA"
+  
+  # Streaming performance settings
+  batch_size: 1000              # Records per batch
+  flush_interval_seconds: 10    # Maximum time between flushes
+  max_memory_usage_mb: 512      # Maximum memory before forced flush
+  compression_type: "GZIP"      # Compression for data transfer
+  
+  # Error handling
+  max_retries: 3
+  retry_delay_seconds: 5
+  dead_letter_queue_enabled: true
+  
+  # Performance tuning
+  parallel_channels: 4          # Number of parallel streaming channels
+  prefetch_count: 100          # Number of records to prefetch
+  enable_request_telemetry: true
+
+# Data Source Configuration
+data_source:
+  default_source: "kafka"
+  
+  # Kafka configuration for streaming data (PRIMARY SOURCE)
+  kafka:
+    bootstrap_servers: ["somekafkabroker:9092"]  # Set via environment variable
+    topics: ["icymta"]  # Primary topic for MTA real-time data
+    consumer_group: "snowpipe-streaming-consumer2"
+    
+    # SASL_SSL Authentication configuration
+    security_protocol: "SASL_SSL"
+    sasl_mechanism: "PLAIN"
+    sasl_username: "some user"  # Set via environment variable
+    sasl_password: "somemongpassword"
+    
+    # SSL configuration
+    ssl_cafile: null  # Path to CA certificate file if needed
+    ssl_certfile: null  # Path to client certificate file if needed
+    ssl_keyfile: null  # Path to client key file if needed
+    
+    # Consumer configuration
+    auto_offset_reset: "latest"
+    enable_auto_commit: true
+    auto_commit_interval_ms: 1000
+    session_timeout_ms: 30000
+    heartbeat_interval_ms: 3000
+    max_poll_records: 500
+    max_poll_interval_ms: 300000
+    fetch_min_bytes: 1
+    fetch_max_wait_ms: 500
+    
+    # Performance tuning
+    receive_buffer_bytes: 65536
+    send_buffer_bytes: 131072
+    request_timeout_ms: 30000
+    retry_backoff_ms: 100
+    max_in_flight_requests_per_connection: 5
+  
+
+    # Polling configuration
+    poll_interval_seconds: 30
+    request_timeout_seconds: 15
+    max_concurrent_requests: 5
+
+# Data Processing Configuration
+processing:
+  # Data validation
+  validation:
+    enable_schema_validation: true
+    drop_invalid_records: false
+    log_validation_errors: true
+  
+  # Data transformation
+  transformation:
+    normalize_timestamps: true
+    convert_coordinates_to_float: true
+    generate_uuid: true
+    add_ingestion_metadata: true
+    
+  # Data quality checks
+  quality_checks:
+    check_required_fields: true
+    validate_coordinate_ranges: true
+    check_timestamp_ranges: true
+    detect_duplicates: true
+    duplicate_window_minutes: 5
+
+# Monitoring and Alerting
+monitoring:
+  # Metrics collection
+  metrics:
+    enable_prometheus: false
+    prometheus_port: 8000
+    collection_interval_seconds: 30
+    
+    # Custom metrics
+    track_ingestion_rate: true
+    track_error_rate: true
+    track_latency: true
+    track_data_quality: true
+  
+  # Logging configuration
+  logging:
+    level: "INFO"
+    format: "json"
+    log_file: "logs/snowpipe_streaming.log"
+    max_file_size_mb: 100
+    backup_count: 5
+    
+    # Structured logging fields
+    include_fields:
+      - timestamp
+      - level
+      - message
+      - source
+      - channel_name
+      - records_processed
+      - error_details
+  
+  # Health checks
+  health_checks:
+    enable_health_endpoint: false
+    health_port: 8001
+    check_interval_seconds: 60
+    
+    # Health check components
+    check_snowflake_connection: false
+    check_data_source_connection: false
+    check_memory_usage: false
+    check_error_rate: false
+
+# Performance Optimization
+performance:
+  # Memory management
+  memory:
+    max_heap_size_mb: 2048
+    gc_threshold: 0.8
+    enable_memory_profiling: false
+  
+  # CPU optimization
+  cpu:
+    worker_threads: 4
+    enable_multiprocessing: true
+    process_pool_size: 2
+  
+  # I/O optimization
+  io:
+    enable_async_io: true
+    connection_pool_size: 20
+    read_buffer_size_kb: 64
+    write_buffer_size_kb: 64
+
+# Security Configuration
+security:
+  # Encryption
+  encryption:
+    enable_tls: true
+    verify_ssl_certificates: true
+    
+  # Authentication
+  authentication:
+    use_environment_variables: true
+    rotate_credentials_days: 90
+    
+  # Data privacy
+  privacy:
+    anonymize_pii: false  # Set to true if required
+    hash_vehicle_ids: false
+    mask_coordinates: false
+
+# Development and Testing
+development:
+  # Testing configuration
+  testing:
+    enable_test_mode: false
+    test_data_file: "test_data/sample_mta_data.json"
+    mock_api_responses: false
+    
+  # Debugging
+  debug:
+    enable_debug_mode: true
+    log_raw_data: true
+    save_failed_records: true
+    failed_records_path: "logs/failed_records/"

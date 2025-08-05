@@ -1,0 +1,21 @@
+{
+  "account": "SFACCOUNT",
+  "user": "someservicename",
+  "authenticator": "SNOWFLAKE_JWT",
+  "private_key_path": "/somekey.p8",
+  "warehouse": "INGEST",
+  "database": "DEMO",
+  "schema": "DEMO",
+  "role": "ACCOUNTADMIN",
+  "parameters": {
+    "ENABLE_ICEBERG_TABLES": true,
+    "ENABLE_STREAMING_INGESTION": true,
+    "SNOWPIPE_STREAMING_ENABLE_ICEBERG": true,
+    "ENABLE_CONSOLE_OUTPUT": true,
+    "enable_iceberg_streaming": true,
+    "QUERY_TAG": "MTA_SNOWPIPE_STREAMING",
+    "TIMEZONE": "UTC"
+  },
+  "connection_timeout": 60,
+  "network_timeout": 300
+}

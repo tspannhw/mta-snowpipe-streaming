@@ -1,0 +1,108 @@
+# ============================================================================
+# Snowpipe Streaming High-Performance Architecture - Docker Compose
+# MTA Real-time Transit Data Pipeline
+# ============================================================================
+
+services:
+  # Main Snowpipe Streaming Application
+  snowpipe-streaming:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mta-snowpipe-streaming
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PRIVATE_KEY_PATH=${SNOWFLAKE_PRIVATE_KEY_PATH}
+      - SNOWFLAKE_PRIVATE_KEY_PASSPHRASE=${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}
+      - SNOWFLAKE_WAREHOUSE=${SNOWFLAKE_WAREHOUSE:-STREAMING_WH}
+      - SNOWFLAKE_DATABASE=${SNOWFLAKE_DATABASE:-DEMO}
+      - SNOWFLAKE_SCHEMA=${SNOWFLAKE_SCHEMA:-DEMO}
+      - SNOWFLAKE_ROLE=${SNOWFLAKE_ROLE:-PUBLIC}
+      - DEFAULT_DATA_SOURCE=${DEFAULT_DATA_SOURCE:-kafka}
+      - KAFKA_BOOTSTRAP_SERVERS=${KAFKA_BOOTSTRAP_SERVERS}
+      - KAFKA_SASL_USERNAME=${KAFKA_SASL_USERNAME}
+      - KAFKA_SASL_PASSWORD=${KAFKA_SASL_PASSWORD}
+      - KAFKA_TOPIC=${KAFKA_TOPIC:-icymta}
+      - KAFKA_CONSUMER_GROUP=${KAFKA_CONSUMER_GROUP:-snowpipe-streaming-consumer}
+      - MTA_API_KEY=${MTA_API_KEY}
+      - PYTHONPATH=/app
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ./logs:/app/logs
+      - streaming_data:/app/data
+      - ${SNOWFLAKE_PRIVATE_KEY_PATH}:${SNOWFLAKE_PRIVATE_KEY_PATH}:ro  # Mount private key file
+    ports:
+      - "8001:8001"  # Health checks
+    networks:
+      - streaming_network
+    deploy:
+      resources:
+        limits:
+          memory: 4G
+          cpus: '2.0'
+        reservations:
+          memory: 2G
+          cpus: '1.0'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Real-time Dashboard
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: mta-dashboard
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - SNOWFLAKE_ACCOUNT=${SNOWFLAKE_ACCOUNT}
+      - SNOWFLAKE_USER=${SNOWFLAKE_USER}
+      - SNOWFLAKE_PRIVATE_KEY_PATH=${SNOWFLAKE_PRIVATE_KEY_PATH}
+      - SNOWFLAKE_PRIVATE_KEY_PASSPHRASE=${SNOWFLAKE_PRIVATE_KEY_PASSPHRASE}
+      - SNOWFLAKE_WAREHOUSE=${SNOWFLAKE_WAREHOUSE:-STREAMING_WH}
+      - SNOWFLAKE_DATABASE=${SNOWFLAKE_DATABASE:-DEMO}
+      - SNOWFLAKE_SCHEMA=${SNOWFLAKE_SCHEMA:-DEMO}
+      - SNOWFLAKE_ROLE=${SNOWFLAKE_ROLE:-PUBLIC}
+      - FLASK_ENV=production
+    volumes:
+      - ./config.yaml:/app/config.yaml:ro
+      - ${SNOWFLAKE_PRIVATE_KEY_PATH}:${SNOWFLAKE_PRIVATE_KEY_PATH}:ro  # Mount private key file
+    ports:
+      - "8080:8080"  # Dashboard web interface
+    networks:
+      - streaming_network
+    depends_on:
+      - snowpipe-streaming
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+          cpus: '1.0'
+        reservations:
+          memory: 512M
+          cpus: '0.5'
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/api/metrics"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+networks:
+  streaming_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+volumes:
+  streaming_data:
+    driver: local

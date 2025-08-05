@@ -1,0 +1,56 @@
+# ============================================================================
+# Environment Configuration for Snowpipe Streaming with Kafka
+# COPY THIS FILE TO .env AND UPDATE WITH YOUR ACTUAL VALUES
+# ============================================================================
+
+# Snowflake Configuration (REQUIRED - Key-pair Authentication Only)
+SNOWFLAKE_ACCOUNT=server
+SNOWFLAKE_USER=ser
+# Key-pair authentication (REQUIRED - no password support)
+SNOWFLAKE_PRIVATE_KEY_PATH=/test.p8
+SNOWFLAKE_PRIVATE_KEY_PASSPHRASE=  # Optional - only if private key is encrypted
+SNOWFLAKE_WAREHOUSE=INGEST
+SNOWFLAKE_DATABASE=DEMO
+SNOWFLAKE_SCHEMA=DEMO
+SNOWFLAKE_ROLE=SYSADMIN
+
+# Data Source Configuration
+DEFAULT_DATA_SOURCE=kafka  # Options: kafka, mta_api
+
+# Kafka Configuration (PRIMARY SOURCE - REQUIRED for kafka mode)
+KAFKA_BOOTSTRAP_SERVERS=your-kafka-broker:9092
+KAFKA_SASL_USERNAME=your_kafka_username
+KAFKA_SASL_PASSWORD=your_kafka_password
+KAFKA_TOPIC=icymta
+KAFKA_CONSUMER_GROUP=snowpipe-streaming-consumer
+
+# MTA API Configuration (FALLBACK SOURCE - REQUIRED for mta_api mode)
+MTA_API_KEY=your_mta_api_key
+
+# Application Performance Settings
+PARALLEL_CHANNELS=4
+BATCH_SIZE=1000
+FLUSH_INTERVAL_SECONDS=10
+MAX_MEMORY_GB=4
+MAX_CPU_CORES=2
+
+# Monitoring Configuration
+PROMETHEUS_PORT=8000
+HEALTH_CHECK_PORT=8001
+GRAFANA_ADMIN_PASSWORD=admin123
+ENABLE_PROMETHEUS=true
+ENABLE_HEALTH_CHECKS=true
+
+# Optional: Advanced Kafka Settings
+# KAFKA_SESSION_TIMEOUT_MS=30000
+# KAFKA_HEARTBEAT_INTERVAL_MS=3000
+# KAFKA_AUTO_OFFSET_RESET=latest
+
+# Optional: SSL Certificate Paths (if required)
+# KAFKA_SSL_CAFILE=/path/to/ca-cert.pem
+# KAFKA_SSL_CERTFILE=/path/to/client-cert.pem
+# KAFKA_SSL_KEYFILE=/path/to/client-key.pem
+
+# Optional: Alerting Configuration
+ALERT_EMAIL=alerts@yourdomain.com
+SLACK_WEBHOOK_URL=https://hooks.slack.com/services/YOUR/SLACK/WEBHOOK
