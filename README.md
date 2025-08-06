@@ -48,8 +48,6 @@ graph TB
 
 ![mta](images/icymta6.png)
 
-![mta](images/icymta7.png)
-
 ![mta](images/icymta8.png)
 
 
