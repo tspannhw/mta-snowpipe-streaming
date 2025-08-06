@@ -35,7 +35,7 @@ graph TB
 ## 📁 Screen Shots
 
 
-[![MTA:   High Speed Ingest]([https://github.com/tspannhw/mta-snowpipe-streaming/blob/main/images/icymta7.png?raw=true))](https://www.youtube.com/watch?v=ZEzUsXtERN0 "MTA:   High Speed Ingest")
+[![MTA:   High Speed Ingest](https://github.com/tspannhw/mta-snowpipe-streaming/blob/main/images/icymta7.png?raw=true)(https://www.youtube.com/watch?v=ZEzUsXtERN0 "MTA:   High Speed Ingest")]
 
 
 ![mta](images/icymta1.png)
