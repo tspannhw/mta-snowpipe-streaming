@@ -32,10 +32,10 @@ graph TB
     D --> E[Snowflake Iceberg Table]
 ```
 
-## 📁 Screen Shots
+## 📁 Screen Shots and Video
 
 
-[![MTA:   High Speed Ingest](https://github.com/tspannhw/mta-snowpipe-streaming/blob/main/images/icymta7.png?raw=true)(https://www.youtube.com/watch?v=ZEzUsXtERN0 "MTA:   High Speed Ingest")]
+[![MTA:   High Speed Ingest](https://github.com/tspannhw/mta-snowpipe-streaming/blob/main/images/icymta7.png?raw=true)](https://www.youtube.com/watch?v=ZEzUsXtERN0)
 
 
 ![mta](images/icymta1.png)
