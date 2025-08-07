@@ -1,0 +1,14 @@
+﻿STOPPOINTNAME,BEARING,DESTINATIONNAME,LOCATION,WHERETHEBUSAT,NUMBEROFSTOPSAWAY,ESTIMATEDPASSENGERCAPACITY,ESTIMATEDPASSENGERCOUNT,"AI_COMPLETE('OPENAI-GPT-5',PROMPT('CAN YOU DESCRIBE THE LOCATION WHERE THIS BUS IS STOPPING.  {0} @ {1}  ', DESTINATIONNAME, LOCATION ))"
+E 57 ST/LEXINGTON AV,209.827087402,PARK AND RIDE SI MALL,"40.583957672,-74.16104126",15.6 miles away,0,,,"Sure! Based on the coordinates **40.583957672, -74.16104126**, the location is on Staten Island, New York, in the parking area adjacent to the **Staten Island Mall** — specifically the **Park & Ride** area.
+
+Here's a description:
+
+- **General Area:** This spot is just off Richmond Avenue in the neighborhood of New Springville, Staten Island.
+- **Facility:** The **Staten Island Mall Park & Ride** is a designated commuter parking lot next to the Staten Island Mall, used for express buses to Manhattan and some local bus connections.
+- **Surroundings:**  
+  - The mall itself is directly east, with a large complex of retail stores and restaurants.  
+  - The Park & Ride area is an asphalt parking lot with marked bus bays and shelters for passengers.  
+  - To the west is Marsh Avenue and to the north/south are mall access roads and more parking areas.  
+- **Purpose:** Commuters park their cars here and board MTA express buses like SIM-series lines to reach Manhattan, reducing traffic congestion.
+
+If you’d like, I can also give you **a visual orientation** (imagining street view) of where the bus stops within the lot and which side the mall is on. Would you like me to do that?"
